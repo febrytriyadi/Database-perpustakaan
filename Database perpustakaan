@@ -1,0 +1,403 @@
+CREATE TABLE DONATUR (
+  Id_donatur varchar2(20) not null enable,
+  Nama varchar2(20),
+  Alamat varchar2(50),
+  No_tlp varchar2(20),
+  constraint Donatur_PK primary key (Id_donatur) enable
+);
+  
+CREATE TABLE BUKU (
+  Id_buku varchar2(20) not null enable,
+  Judul varchar2(20),
+  Stock number,
+  Tahun varchar2(5),
+  Penerbit varchar2(20),
+  Pengarang varchar2(50),
+  constraint Buku_PK primary key (Id_buku) enable
+);
+
+CREATE TABLE PENULIS(
+  Id_penulis varchar2(20) not null enable,
+  Nama varchar2(20),
+  Alamat varchar2(50),
+  Judul_buku varchar2(20),
+  constraint Penulis_PK primary key (Id_penulis) enable
+);
+
+CREATE TABLE MENYUMBANG (
+  Id_buku varchar2(20),
+  Id_donatur varchar2(20),
+  constraint Menyumbang_FK foreign key (Id_buku) references Buku (Id_buku) on delete cascade enable,
+  constraint Menyumbang_FK2 foreign key (Id_donatur) references Donatur (Id_donatur) on delete cascade enable
+ ); 
+
+CREATE TABLE DITULIS (
+  Id_buku varchar2(20),
+  Id_penulis varchar2(20),
+  constraint Ditulis_FK foreign key (Id_buku) references Buku (Id_buku) on delete cascade,
+  constraint Ditulis_FK1 foreign key (Id_penulis) references Penulis (Id_penulis) on delete cascade
+);
+
+CREATE TABLE RAK (
+  No_rak varchar2(20) not null enable,
+  Baris varchar2(10),
+  Katagori varchar2(20),
+  constraint Rak_PK primary key (No_rak) enable
+);
+
+CREATE TABLE PERPUS (
+  Id_perpus varchar2(20) not null enable,
+  Nama varchar2(20),
+  Lokasi varchar2(50),
+  constraint Perpus_PK primary key (Id_perpus) enable
+);
+
+CREATE TABLE Disimpan (
+  Id_buku varchar2(20),
+  No_rak varchar2(20),
+  Id_perpus varchar2(20),
+  constraint Disimpan_FK foreign key (Id_buku) references Buku (Id_buku) on delete cascade,
+  constraint Disimpan_FK2 foreign key (No_rak) references Rak (No_rak) on delete cascade,
+  constraint Disimpan_FK3 foreign key (Id_perpus) references Perpus (Id_perpus) on delete cascade
+);
+
+CREATE TABLE ANGGOTA(
+  Id_anggota varchar2(20) not null enable,
+  Nama varchar2(20),
+  Alamat varchar2(50),
+  Email varchar2(20),
+  TTL date,
+  No_tlp varchar2(13),
+  constraint Anggota_PK PRIMARY KEY (Id_anggota) enable
+);
+
+CREATE TABLE KARYAWAN (
+  No_karyawan varchar2(20) not null enable,
+  Id_anggota varchar2(20),
+  constraint Karyawan_PK primary key (No_karyawan) enable,
+  constraint Karuayan_FK foreign key (Id_anggota) references Anggota (Id_anggota) on delete cascade
+);
+
+CREATE TABLE UMUM (
+  No_KTP varchar2(20) not null enable,
+  Id_anggota varchar2(20),
+  constraint Umum_PK primary key (No_KTP) enable,
+  constraint Umum_FK foreign key (Id_anggota) references Anggota (Id_anggota) on delete cascade
+);
+
+CREATE TABLE MAHASISWA (
+  NIM varchar2(20) not null enable,
+  Id_anggota varchar2(20),
+  constraint Mahasiswa_PK primary key (NIM) enable,
+  constraint Mahasiswa_FK foreign key (Id_anggota) references Anggota (Id_anggota) on delete cascade
+);
+
+CREATE TABLE MEMINJAM (
+  Id_pinjam varchar2(20) not null enable,
+  Id_anggota varchar2(20),
+  Tgl_pinjam date,
+  Tgl_pengembalian date,
+  Biaya_denda number,
+  constraint Meminjam_PK primary key (Id_pinjam) enable,
+  constraint Meminjam_FK foreign key (Id_anggota) references Anggota (Id_anggota) on delete cascade
+);
+
+CREATE TABLE DETIL_MEMINJAM (
+  Id_pinjam varchar2(20),
+  Id_buku varchar2(20),
+  constraint Detil_meminjam_FK foreign key (Id_pinjam) references Meminjam (Id_pinjam) on delete cascade,
+  constraint Detil_meminjam_FK1 foreign key (Id_buku) references Buku (Id_buku) on delete cascade
+);
+
+
+alter session set nls_date_format = 'dd/mon/yyyy';
+
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0101','Anis','Jl. Serdang Baru','082297126695');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0102','Siti','Jl. Pajajaran 3/120','089633280142');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0103','Febri','Jl. Soekarno Hatta','081239077429');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0104','Linggis','Jl. Merapi III','087625397173');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0105','Ditul','Jl. Mangga Dua III','089593238023');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0106','Adit','Jl. Gn. Rinjani I','081183763901');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0107','Egi','Kota Harapan Indah','089996108954');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0108','Raras','Pondok Ungu Permai','089643229841');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF0109','Galih','Jl. Buah Batu IV','08559907536');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01010','Aji','Gg. Mandor Eti','082374019836');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01011','Naufal','Gg. Emprit I','08181175408');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01012','Nisrina','Kemayoran','089975432438');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01013','Nuri','Gg. Ujung Pandang','081909543562');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01014','Bagas','Karang Anyer 01/002','087428229172');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01015','Ratna','Jl. Telkom University','08585434567');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01016','Khairu','Cempaka Mas, Jakarta Pusat','08207667533');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01017','Michiko','Gg. Kemiri','08215674908');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01018','Lista','Gg. Sukapura Ujung','081049347536');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01019','Kara','Perumahan Pesona Bali 1','089371625642');
+INSERT INTO donatur (Id_donatur, Nama, Alamat, No_tlp) VALUES('AF01020','Khiara','Jl. Universitas Indonesia','08737610030');
+
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0201','Abdul Kadir Ibrahim','Mollah city college.','Nadi Hang Tuah');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0202','Abdullah Harahap','Jl. Keramat Sentiong.','Misteri Sebuah Peti');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0203','Abidah El Khalieqy','Jombang, Jawa Timur.','Geni Jora');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0204','Agatha Christie','Torquay, Devon, Inggris.','Tirai');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0205','Dan Brown','New Hampshire.','Angel and Demon');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0206','Ian Hearn','Gillian Margaret Hanson.','Trilogi Klan Otori');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0207','Ahmad Faisal Imron','Alabama','Maliun Hawa');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0208','John Grisham','Jonesboro, Arkansas.','Pelican Brief');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB0209','Bram Stoker','Clontarf, Dublin, Irlandia.','Drakula');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02010','J.K Rowling','Gloucestershire Utara, Inggris.','Herry Potter');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02011','Andrea Hirata','Gantung, Bangka Belitung.','Laskar Pelangi');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02012','Dewi Lestari','Bandung, Jawa Barat.','Supernova, Akar');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02013','Eiichiro Oda','Kumamoto.','One Piece');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02014','Takehiko Inoue','Inoue Takehiko.','Slam dunk');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02015','Ono Eriko','Tokyo, Jepang.','Hai Miiko !');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02016','Mashasi Ueda','Tokyo, Jepang.','Kobo Chan');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02017','Fujiko F. Fujio','Takaoka-city, Toyama Prefecture.','Doraemon');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02018','Achmad Munif','Jombang, Jawa Timur','Kabut Kelam');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02019','Afrizal malna','Jakarta','Pada Bantal Berasap');
+INSERT INTO penulis (Id_penulis, Nama, Alamat, Judul_buku) VALUES('PB02020','Agit Yogi Subandi','Tegal, Jawa Tengah.','Sebait Pantun Bujang');
+
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0301','Nadi Hang Tuah','50','2016','Adicita Karya Nusa','Abdul Kadir Ibrahim');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0302','Misteri Sebuah Peti','100','2010','Gramedia Pustaka U. ','Abdullah Harahap');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0303','Geni Jora','47','2009','Qanita','Abidah El Khalieqy');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0304','Tirai','20','1975','Collins Crime Club','Agatha Christie');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0305','Angel and Demon','26','2005','Serambi','Dan Brown');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0306','Trilogi Klan Otori','38','2005','Matahati','Ian Hearn');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0307','Maliun Hawa','70','2007','Komunitas Malaikat','Ahmad Faisal Imron');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0308','Pelican Brief','66','2000','Gramed. Pustaka U.','John Grisham');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK0309','Drakula','54','1897','Navila Idea','Bram Stoker');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03010','Harry Potter','98','1997','Gramed. Pustaka U.','J.K Rowling');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03011','Laskar Pelangi','90','2005','Bentang Pustaka','Andrea Hirata');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03012','Supernova, Akar','47','2002','Truedee Books','Dewi Lestari');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03013','One Piece','60','1997','Shueisha','Eiichiro Oda');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03014','Slam dunk','42','1990','Elex Media K.','Takehiko Inoue');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03015','Hai Miiko !','20','1995','Majalah Ciao','Ono Eriko');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03016','Kobo Chan','44','1996','Elex Media K.','Mashasi Ueda');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03017','Doraemon','87','1969','Elex Media K.','Fujiko F. Fujio');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03018','Kabut Kelam','74','2005','Lingkar Pena K.','Achmad Munif');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03019','Pada Bantal Berasap','32','2009','Omah Sore','Afrizal Malna');
+INSERT INTO Buku (Id_buku, Judul, Stock, Tahun, Penerbit, Pengarang) VALUES('BK03020','Sebait Pantun Bujang','49','2010','Dewan Kesenian L.','Agit Yogi Subandi');
+
+
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0301','AF0101');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0301','AF0102');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0302','AF0103');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0304','AF0104');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0305','AF0105');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0305','AF0106');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0307','AF0107');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0307','AF0108');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0309','AF0109');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03010','AF01010');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK0307','AF01011');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03012','AF01012');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03013','AF01013');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03014','AF01014');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03015','AF01015');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03010','AF01016');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03017','AF01017');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03018','AF01018');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03019','AF01019');
+INSERT INTO Menyumbang(Id_buku, Id_donatur) VALUES('BK03020','AF01020');
+
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0301','PB0201');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0302','PB0202');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0303','PB0203');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0304','PB0204');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0305','PB0205');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0306','PB0206');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0307','PB0207');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0308','PB0208');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK0309','PB0209');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03010','PB02010');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03011','PB02011');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03012','PB02012');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03013','PB02013');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03014','PB02014');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03015','PB02015');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03016','PB02016');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03017','PB02017');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03018','PB02018');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03019','PB02019');
+INSERT INTO Ditulis (Id_buku, Id_penulis) VALUES('BK03020','PB02020');
+
+
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1001','BA001','Umum');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1002','BA001','Umum');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1003','BA002','Psikologi');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1004','BA003','Agama');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1005','BA004','Sosial');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1006','BA005','Bahasa');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1007','BA006','Sains');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1008','BA007','Novel');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA1009','BA008','Novel');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10010','BA009','Matematika');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10011','BA002','Komik');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10012','BA003','Komik');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10013','BA004','Horor');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10014','BA005','Fiksi');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10015','BA006','Fiksi');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10015','BA007','Pengetahuan');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10016','BA008','Pengetahuan');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10017','BA009','Seni dan Kreasi');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10018','BA0010','Cerpen');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10019','BA0011','Cerpen');
+INSERT INTO  Rak (No_rak, Baris, Katagori) VALUES('RA10020','BA0011','Majalah');
+
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980006','MP021');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980005','MP022');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980014','MP023');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980003','MP024');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980002','MP025');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980017','MP026');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980009','MP027');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980012','MP028');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980007','MP029');
+INSERT INTO umum (KTP,  id_member) VALUES('3274030602980019','MP030');
+
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162195','MP041');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162159','MP042');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301164123','MP043');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162122','MP044');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162155','MP045');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162199','MP046');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162190','MP047');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301164000','MP048');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301164101','MP049');
+INSERT INTO mahasiswa (NIM,  id_member) VALUES('1301162150','MP050');
+
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP001','MP001');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP002','MP002');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP003','MP003');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP004','MP004');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP005','MP005');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP006','MP006');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP007','MP007');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP008','MP008');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP009','MP009');
+INSERT INTO karyawan (id_karyawan,  id_member) VALUES('KP010','MP010');
+
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP001','Febry','01/FEB/2000','jln.Delima no.1','triyadifeb@gmail.com','085864075063');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP002','Anis','26/APR/2000','jln.serdang no.1','nisrina26n@gmail.com','085864075063');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP003','Adi','01/JAN/1999','jln.Durian no.3','adi@gmail.com','085864075000');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP004','Pati','01/NOV/1990','jln.Mangga no.4','pati@gmail.com','085864075009');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP005','Emshu','10/NOV/1998','jln.Delima no.5','emshu@gmail.com','085864075008');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP006','Riyan','11/NOV/1992','jln.Durian no.6','riyan@gmail.com','085864006376');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP007','Dian','12/NOV/2000','jln.Durian no.7','dian@gmail.com','085407506333');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP008','Imad','13/DEC/1997','jln.Mangga no.8','imad@gmail.com','085864075063');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP009','Udin','01/OCT/1995','jln.Manggis no.9','udin@gmail.com','081346334745');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP010','Rima','01/FEB/1995','jln.Apel no.10','rima@gmail.com','085345345612');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP021','Haikal','15/NOV/2000','jln.Delima no.21','haikal@gmail.com','081645454566');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP022','Beta','30/JAN/2000','jln.Delima no.22','beta@gmail.com','081231231231');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP023','Hilmi','27/MAR/1998','jln.Durian no.23','hilmi@gmail.com','081346543466');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP024','Doi','28/FEB/1998','jln.Sirsak no.1','doi@gmail.com','085845645645');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP025','Alya','15/FEB/1990','jln.Sirsak no.11','alya@gmail.com','085864574566');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP026','Tantri','01/AUG/1998','jln.Sirsak no.10','tantri@gmail.com','085845745786');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP027','Farah','17/AUG/1945','jln.Sirsak no.5','farah@gmail.com','085568769678');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP028','Diaz','18/AUG/1945','jln.Semangka no.2','diaz@gmail.com','081346457576');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP029','Farhan','28/DEC/1998','jln.Semangka no.7','farhan@gmail.com','085834534546');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP030','Reza','22/DEC/1998','jln.Semangka no.18','reza@gmail.com','085457456546');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP041','Nurul','10/OCT/1999','jln.Aplpukat no.16','nurul@gmail.com','085235345477');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP042','Dheya','25/JUL/1999','jln.Semangka no.9','dheya@gmail.com','085456457645');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP043','Hanif','16/APR/2000','jln.Sirsak no.31','hanif@gmail.com','085864457457');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP044','Halim','09/FEB/1998','jln.Sirsak no.32','halim@gmail.com','085456457456');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP045','Danil','05/APR/1998','jln.Sirsak no.33','danil@gmail.com','081346675745');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP046','Danis','19/NOV/2001','jln.Semangka no.10','danis@gmail.com','089565674645');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP047','Hasna','01/APR/2000','jln.Delima no.31','hasna@gmail.com','085865464567');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP048','Dera','11/MAR/1998','jln.Delima no.42','dera@gmail.com','085547457457');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP049','Egista','11/APR/1998','jln.Durian no.100','egista@gmail.com','085845645745');
+INSERT INTO member (id_member, nama, tgl_lahir, alamat, email, no_tlp) VALUES('MP050','Putri','29/NOV/1998','jln.Sirsak no.8','putri@gmail.com','085865474574');
+
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4001','Sinar Hidup','JL.Mengger');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4002','Sinar Mas','JL. Hilir');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4003','Sinar Terang','JL. Ahmad Yani');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4004','Sinar Percaya','JL. Sudirman');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4005','Sinar Ilmu','JL. Ciganitri');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4006','Sinar Jaya','JL. Lembang');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4007','Sinar Dunia','JL. Kiaracondong');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4008','Sinar Diri','JL. Soekarno-Hatta');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4009','Sinar Anugerah','JL. Sukapura');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4010','Sinar Bersih','JL. Babakan Ciamis');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4011','Sinar Cahaya','JL. Pasteur');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4012','Sinar Jendela Dunia','JL. Ganesha');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4013','Sinar Terang','JL. ciamis');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4014','Sinar Cerah','JL. Batununggal');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4015','Sinar Putih','JL. Buah Batu');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4016','Sinar Kuning','JL. Radio Palasari');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4017','Sinar Berani','JL. Hj Umayyah');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4018','Sinar Gemerlap','JL. Antapani');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4019','Sinar Cybertron','JL. Dago');
+INSERT INTO  Perpus (Id_perpus, Nama, Lokasi) VALUES('PP4020','Sinar Sukabirus','JL. Sukabirus');
+
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0301','RA10020','PP4001');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0302','RA10020','PP4001');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0305','RA10020','PP4001');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0303','RA10020','PP4001');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0304','RA10019','PP4002');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0306','RA10019','PP4002');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0308','RA10019','PP4002');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0307','RA10019','PP4002');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK0309','RA10019','PP4002');
+INSERT INTO  Disimpan (Id_buku, No_rak, Id_perpus) VALUES('BK03010','RA10019','PP4002');
+
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B01','BK0301');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B02','BK0305');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B03','BK0307');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B04','BK0302');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B05','BK0304');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B06','BK0303');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B07','BK03010');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B08','BK03011');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B09','BK0306');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B010','BK0308');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B011','BK0309');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B012','BK03012');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B013','BK03015');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B014','BK03017');
+INSERT INTO  Detil_Meminjam (Id_pinjam, Id_buku) VALUES('M2B015','BK03019');
+
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B01','MP021','02/FEB/2015','03/FEB/2015',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B02','MP001','10/DEC/2015','12/DEC/2015',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B03','MP024','15/JUL/2015','16/JUL/2015',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B04','MP002','10/JAN/2015','11/JAN/2015',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B05','MP030','11/APR/2015','17/APR/2015',1000);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B06','MP046','20/JUN/2015','29/JUN/2015',2000);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B07','MP027','05/MAR/2016','10/MAR/2016',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B08','MP050','07/MAY/2016','10/MAY/2016',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B09','MP049','21/OCT/2016','26/OCT/2016',500);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B010','MP048','31/OCT/2016','10/NOV/2016',3000);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B011','MP001','10/DEC/2016','12/DEC/2016',0);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B012','MP001','31/NOV/2016','10/DEC/2016',3000);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B013','MP002','31/NOV/2016','10/DEC/2016',3000);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B014','MP001','31/JAN/2017','10/FEB/2017',3000);
+INSERT INTO  Meminjam (Id_pinjam, Id_member, Tgl_pinjam, Tgl_pengembalian, Biaya_denda) VALUES('M2B015','MP048','31/JAN/2017','10/FEB/2017',3000);
+
+
+
+select *from MEMBER;
+select *from DONATUR;
+select *from menyumbang;
+select *from penulis;
+select *from perpus;
+select *from ditulis;
+select *from buku;
+select *from rak;
+select *from disimpan;
+select *from Mahasiswa;
+select *from umum;
+select *from karyawan;
+select *from detil_meminjam;
+select *from meminjam;
+
+select * from buku
+where id_buku = 'BK03015';
+
+Select id_member, Nama, judul
+from member
+join meminjam using(id_member)
+join detil_meminjam using(id_pinjam)
+join buku using(id_buku);
+
+Select id_member, Nama, count(id_buku) as "jumlah buku"
+from member
+join meminjam using(id_member)
+join detil_meminjam using(id_pinjam)
+join buku using(id_buku)
+group by id_member, nama;
